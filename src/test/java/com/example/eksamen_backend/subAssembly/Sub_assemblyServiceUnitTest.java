@@ -1,5 +1,6 @@
 package com.example.eksamen_backend.subAssembly;
 
+import com.example.eksamen_backend.model.Part;
 import com.example.eksamen_backend.model.Sub_assembly;
 import com.example.eksamen_backend.repository.SubAssemblyRepository;
 import com.example.eksamen_backend.service.SubAssemblyService;
@@ -45,6 +46,8 @@ public class Sub_assemblyServiceUnitTest {
     @Test
     void shouldAddSub_assembly() {
         var sub_assembly = new Sub_assembly("test unitSubAssembly");
+        var part = new Part("test unitPart");
+        sub_assembly.setPart(part);
         when(sub_assemblyRepo.save(sub_assembly)).thenReturn(sub_assembly);
         var savedSub_assembly = sub_assemblyService.addSubAssembly(sub_assembly);
         assert savedSub_assembly.getSub_assembly_name() == "test unitSubAssembly";

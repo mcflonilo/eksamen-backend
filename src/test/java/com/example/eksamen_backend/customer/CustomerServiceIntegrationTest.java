@@ -20,22 +20,21 @@ public class CustomerServiceIntegrationTest {
         customerService.addCustomer(Customer);
         var customers = customerService.getCustomersPageable(0);
         System.out.println(customers.size());
-        assert customers.size() == 5;
-        System.out.println(customers.get(4).getCustomerName());
-        assert customers.get(4).getCustomerName() == "test testesen";
-        customerService.deleteCustomer((long) customers.get(4).getCustomerId());
+        int size = customers.size();
+        System.out.println(customers.get(size-1).getCustomerName());
+        assert customers.get(size-1).getCustomerName() == "test testesen";
+        customerService.deleteCustomer( customers.get(size-1).getCustomerId());
         customers = customerService.getCustomersPageable(0);
-        assert customers.size() == 4;
+        assert customers.size() == size-1;
     }
     @Test
     @Transactional
     void shouldUpdateAndGetById() {
         var Customer = new Customer("test testesen");
-        customerService.addCustomer(Customer);
-        var customer = customerService.getCustomerById((long) 3);
+        var customer = customerService.addCustomer(Customer);
         customer.setName("oppdatert test testesen");
         customerService.updateCustomer(customer);
-        assert customerService.getCustomerById((long)3).getCustomerName() == "oppdatert test testesen";
+        assert customerService.getCustomerById(customer.getCustomer_id()).getCustomerName() == "oppdatert test testesen";
     }
 
     @Test

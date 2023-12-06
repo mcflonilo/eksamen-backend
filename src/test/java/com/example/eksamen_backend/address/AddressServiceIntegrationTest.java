@@ -19,21 +19,20 @@ public class AddressServiceIntegrationTest {
         addressService.addAddress(Address);
         var address = addressService.getAddressPageable(0);
         System.out.println(address.size());
-        assert address.size() == 9;
-        System.out.println(address.get(8).getAddress());
-        assert address.get(8).getAddress() == "testGata 1";
-        addressService.deleteAddress( address.get(8).getAddress_id());
+        int size = address.size();
+        System.out.println(address.get(size-1).getAddress());
+        assert address.get(size-1).getAddress() == "testGata 1";
+        addressService.deleteAddress( address.get(size-1).getAddress_id());
         address = addressService.getAddressPageable(0);
-        assert address.size() == 8;
+        assert address.size() == size-1;
     }
     @Test
     @Transactional
     void shouldUpdateAndGetById() {
         var Address = new Address("testGata 1");
-        addressService.addAddress(Address);
-        var address = addressService.getAddressById((long) 3);
+        var address = addressService.addAddress(Address);
         address.setAddress("testGata 2");
         addressService.updateAddress(address);
-        assert addressService.getAddressById((long)3).getAddress() == "testGata 2";
+        assert addressService.getAddressById(address.getAddress_id()).getAddress() == "testGata 2";
     }
 }

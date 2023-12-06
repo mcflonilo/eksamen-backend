@@ -3,10 +3,14 @@ package com.example.eksamen_backend.controller;
 import com.example.eksamen_backend.model.Address;
 import com.example.eksamen_backend.model.Customer;
 import com.example.eksamen_backend.service.CustomerService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -28,11 +32,21 @@ public class CustomerController {
         return customerService.getCustomerById(id);
 
     }
+
+
     @PostMapping
     public Customer addCustomer(@RequestBody Customer customer) {
-
         return customerService.addCustomer(customer);
     }
+/*
+    @PostMapping
+    public Customer addCustomer( HttpServletRequest request) throws IOException {
+        //IOUtils.copy(request.getInputStream(), System.out);
+        String body = new String(request.getInputStream().readAllBytes());
+        Customer customer = new ObjectMapper().readValue(body, Customer.class);
+        return customerService.addCustomer(customer);
+    }
+*/
     @PostMapping("/{id}/addAddress")
     public Customer addAddressToCustomer(@PathVariable Long id, @RequestBody Address address) {
         Customer customer = customerService.getCustomerById(id);

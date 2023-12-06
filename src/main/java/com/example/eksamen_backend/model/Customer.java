@@ -1,6 +1,8 @@
 package com.example.eksamen_backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +31,7 @@ public class Customer {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"machine","customer"})
+    @JsonIgnoreProperties({"machine","customer","sub_assemblies"})
     @JoinColumn(name = "customer_id")
     private List<Order> orders = new ArrayList<>();
 
@@ -47,8 +49,8 @@ public class Customer {
         this.customer_id = i;
     }
 
-    public int getCustomerId() {
-        return customer_id.intValue();
+    public Long getCustomerId() {
+        return customer_id;
     }
 
     public String getCustomerName() {
@@ -58,4 +60,4 @@ public class Customer {
     public void setAddress(Address address) {
         this.addresses.add(address);
     }
-}
+    }

@@ -20,10 +20,10 @@ public class OrderServiceIntegrationTest {
         order = orderService.addOrder(order);
         var orders = orderService.getOrdersPageable(0);
         System.out.println(orders.size());
-        assert orders.size() == 5;
+        int size = orders.size();
         orderService.deleteOrder( order.getOrderId());
         orders = orderService.getOrdersPageable(0);
-        assert orders.size() == 4;
+        assert orders.size() == size-1;
     }
     @Test
     @Transactional

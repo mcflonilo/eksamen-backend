@@ -19,21 +19,21 @@ public class PartServiceIntegrationTest {
         partService.addPart(Part);
         var parts = partService.getPartsPageable(0);
         System.out.println(parts.size());
-        assert parts.size() == 7;
-        System.out.println(parts.get(6).getPart_name());
-        assert parts.get(6).getPart_name() == "test part";
-        partService.deletePart( parts.get(6).getPart_id());
+        int size = parts.size();
+
+        System.out.println(parts.get(size-1).getPart_name());
+        assert parts.get(size-1).getPart_name() == "test part";
+        partService.deletePart( parts.get(size-1).getPart_id());
         parts = partService.getPartsPageable(0);
-        assert parts.size() == 6;
+        assert parts.size() == size-1;
     }
     @Test
     @Transactional
     void shouldUpdateAndGetById() {
         var Part = new Part("test part");
-        partService.addPart(Part);
-        var part = partService.getPartById((long) 3);
+        var part = partService.addPart(Part);
         part.setPart_name("oppdatert test part");
         partService.updatePart(part);
-        assert partService.getPartById((long)3).getPart_name() == "oppdatert test part";
+        assert partService.getPartById(part.getPart_id()).getPart_name() == "oppdatert test part";
     }
 }

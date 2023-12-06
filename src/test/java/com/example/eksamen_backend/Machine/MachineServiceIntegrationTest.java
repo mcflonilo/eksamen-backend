@@ -19,22 +19,21 @@ public class MachineServiceIntegrationTest {
         machineService.addMachine(Machine);
         var machines = machineService.getMachinesPageable(0);
         System.out.println(machines.size());
-        assert machines.size() == 5;
-        System.out.println(machines.get(4).getMachine_name());
-        assert machines.get(4).getMachine_name() == "test maskin";
-        machineService.deleteMachine(machines.get(4).getMachine_id());
+        int size = machines.size();
+        System.out.println(machines.get(size-1).getMachine_name());
+        assert machines.get(size-1).getMachine_name() == "test maskin";
+        machineService.deleteMachine(machines.get(size-1).getMachine_id());
         machines = machineService.getMachinesPageable(0);
-        assert machines.size() == 4;
+        assert machines.size() == size-1;
     }
     @Test
     @Transactional
     void shouldUpdateAndGetById() {
         var Machine = new Machine("test maskin");
-        machineService.addMachine(Machine);
-        var machine = machineService.getMachineById((long) 3);
+        var machine = machineService.addMachine(Machine);
         machine.setMachine_name("oppdatert test maskin");
         machineService.updateMachine(machine);
-        assert machineService.getMachineById((long)3).getMachine_name() == "oppdatert test maskin";
+        assert machineService.getMachineById(machine.getMachine_id()).getMachine_name() == "oppdatert test maskin";
     }
 
 }
