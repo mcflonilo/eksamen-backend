@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 @Entity
@@ -21,7 +20,6 @@ public class Sub_assembly {
     private String sub_assembly_name;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("sub_assemblies")
     @JoinTable(
             name = "Sub_assembly_part",
             joinColumns = @JoinColumn(name = "sub_assembly_id"),
